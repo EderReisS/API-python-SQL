@@ -5,7 +5,7 @@ from database.session import connect_to_db
 
 def value(imc: dict) -> float:
     imc_value = imc['weight']/(imc['height']**2)
-    return imc_value.round(2)
+    return round(imc_value,2)
 
 def get_imc():
     try:
@@ -64,7 +64,7 @@ def insert_imc(imc):
 
     return inserted_imc
 
-def update_user(imc_update, imc_id):
+def update_imc(imc_update, imc_id):
     imc = get_imc_by_id(imc_id)
     if not imc:
         return {}
@@ -75,12 +75,11 @@ def update_user(imc_update, imc_id):
         cur.execute(
             query_imc.UPDATE_IMC_BY_ID,
             (
-                user["name"], 
-                user["email"], 
-                user["phone"], 
-                user["address"], 
-                user["country"], 
-                user["user_id"],
+                imc['birthday'],
+                imc['height'], 
+                imc['weight'], 
+                value(imc),
+                imc['user']
             )
         )
         conn.commit()

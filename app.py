@@ -1,39 +1,19 @@
-from flask import Flask, request, jsonify
+from flask import Flask
 from flask_cors import CORS
 
-from database.repository.user import get_users, get_user_by_id, insert_user, update_user, delete_user
-from database.session import create_db_table
+
+from database.session import create_db_table, create_db_table_imc
+
+from api.v1.api_imcs import imc_app
+from api.v1.api_users import user_app
 
 create_db_table()
+create_db_table_imc()
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "*"}})
 
-
-@app.route('/api/v1/users', methods=['GET'])
-def api_get_users():
-    return jsonify(get_users())
-
-
-@app.route('/api/v1/users/<user_id>', methods=['GET'])
-def api_get_user(user_id):
-    return jsonify(get_user_by_id(user_id))
-
-
-@app.route('/api/v1/users',  methods=['POST'])
-def api_add_user():
-    user = request.get_json()
-    return jsonify(insert_user(user))
-
-
-@app.route('/api/v1/users/<user_id>',  methods=['PATCH'])
-def api_update_user(user_id):
-    user_update = request.get_json()
-    return jsonify(update_user(user_update, user_id))
-
-
-@app.route('/api/v1/users/<user_id>',  methods=['DELETE'])
-def api_delete_user(user_id):
-    return jsonify(delete_user(user_id))
+app.register_blueprint(imc_app)
+app.register_blueprint(user_app)
 
 
 if __name__ == "__main__":
