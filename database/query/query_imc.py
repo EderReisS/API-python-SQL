@@ -3,11 +3,11 @@ class QueryIMC:
     CREATE TABLE IF NOT EXISTS imc (
                 imc_id INTEGER PRIMARY KEY NOT NULL,
                 birthday TEXT NOT NULL,
-                height REAL NOT NULL,
-                weight REAL NOT NULL,
-                imc_value REAL NOT NULL,
+                height DECIMAL NOT NULL,
+                weight DECIMAL NOT NULL,
+                imc_value DECIMAL NOT NULL,
                 user INTERGER NOT NULL,
-                FOREIGN KEY user REFERENCES users(user_id)  
+                FOREIGN KEY (user) REFERENCES users(user_id)  
             );
     """
 
